@@ -13,11 +13,11 @@ public class Puzzle8 {
         int op;
         do {
             System.out.println("Seleccione una opcion:");
-            System.out.println("1.- Posiciones erroneas");
-            System.out.println("2.- Diferencia absoluta entre valores");
-            System.out.println("3.- Diferencia entre posiciones");
-            System.out.println("4.- Mostrar resultados");
-            System.out.println("5.- Salir");
+            System.out.println("1=Posiciones erroneas");
+            System.out.println("2=Diferencia absoluta entre valores");
+            System.out.println("3=Diferencia entre posiciones");
+            System.out.println("4=Mostrar resultados");
+            System.out.println("5=Salir");
             op = scan.nextInt();
             switch (op) {
                 case 1:
