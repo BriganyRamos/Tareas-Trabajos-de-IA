@@ -1,0 +1,58 @@
+FUNCTION_BLOCK evaluacion_desempeno
+
+// definir variables de entrada
+VAR_INPUT
+    habilidad_tecnica : REAL;
+    actitud_trabajo : REAL;
+END_VAR
+
+// definir variables de salida
+VAR_OUTPUT
+    evaluacion_desempeno : REAL;
+END_VAR
+
+FUZZIFY habilidad_tecnica
+    TERM baja := (0, 1) (4, 0);
+    TERM media := (1, 0) (5,1) ;
+    TERM alta := (6, 0) (10, 1);
+
+END_FUZZIFY
+
+FUZZIFY actitud_trabajo
+    TERM muy_mala := (0, 1) (1, 1) (2,0);
+    TERM mala := (1, 0) (4,1) (6,1);
+    TERM buena := (6, 0) (9, 1);
+    TERM muy_buena := (9,0) (10,1);
+
+END_FUZZIFY
+
+DEFUZZIFY evaluacion_desempeno
+     TERM muy_baja := (0, 0) (1, 1) (2, 0);
+    TERM baja := (2, 0) (3, 1) ;
+    TERM media := (4, 0) (5, 1) ;
+    TERM alta := (7, 0) (8, 1) ;
+    TERM muy_alta := (9, 0) (10, 1);
+
+    METHOD : COG;
+END_DEFUZZIFY
+
+RULEBLOCK evaluacion_desempeno_rules
+AND : MIN;
+ACT : MIN;
+ACCU : MAX;
+
+RULE 1 : IF habilidad_tecnica IS baja AND actitud_trabajo IS muy_mala THEN evaluacion_desempeno IS muy_baja;
+RULE 2 : IF habilidad_tecnica IS baja AND actitud_trabajo IS mala THEN evaluacion_desempeno IS baja;
+RULE 3 : IF habilidad_tecnica IS baja AND actitud_trabajo IS buena THEN evaluacion_desempeno IS media;
+RULE 4 : IF habilidad_tecnica IS baja AND actitud_trabajo IS muy_buena THEN evaluacion_desempeno IS alta;
+RULE 5 : IF habilidad_tecnica IS media AND actitud_trabajo IS muy_mala THEN evaluacion_desempeno IS muy_baja;
+RULE 6 : IF habilidad_tecnica IS media AND actitud_trabajo IS mala THEN evaluacion_desempeno IS baja;
+RULE 7 : IF habilidad_tecnica IS media AND actitud_trabajo IS buena THEN evaluacion_desempeno IS media;
+RULE 8 : IF habilidad_tecnica IS media AND actitud_trabajo IS muy_buena THEN evaluacion_desempeno IS alta;
+RULE 9 : IF habilidad_tecnica IS alta AND actitud_trabajo IS muy_mala THEN evaluacion_desempeno IS baja;
+RULE 10 : IF habilidad_tecnica IS alta AND actitud_trabajo IS mala THEN evaluacion_desempeno IS media;
+RULE 11 : IF habilidad_tecnica IS alta AND actitud_trabajo IS buena THEN evaluacion_desempeno IS alta;
+RULE 12 : IF habilidad_tecnica IS alta AND actitud_trabajo IS muy_buena THEN evaluacion_desempeno IS muy_alta;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
